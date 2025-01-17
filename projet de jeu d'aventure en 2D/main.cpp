@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <vector>
 #include <iostream>
+#include <cmath>
 using namespace sf;
 using namespace std;
 
@@ -66,6 +68,51 @@ public:
 
 };
 
+class Ennemi : public Entity {
+
+protected :
+    
+    CircleShape ennemi;
+
+public:
+
+    Ennemi(float radius, Color color, Vector2f startPosition) {
+        ennemi.setRadius(radius);
+        ennemi.setFillColor(color);
+        ennemi.setOrigin(radius, radius);
+        ennemi.setPosition(startPosition);
+    }
+
+    FloatRect getBounds() const {
+
+        return ennemi.getGlobalBounds();
+
+    }
+
+    void draw(RenderWindow& window) override {
+
+        window.draw(ennemi);
+
+    }
+};
+
+class patpatrouille : public Ennemi {
+
+private:
+
+    vector<Vector2f> waypoints;
+    int actpos;
+    float speed;
+
+public:
+
+    patpatrouille(Vector2f startPosition, vector<Vector2f> waypoints) : Ennemi(20.f, Color::Blue, startPosition), waypoints(waypoints), actpos(0), speed (80.f){}
+    
+    void maj(float deltaTime, const Vector2u& windowSize) override {
+
+    }
+
+};
 
 int main() {
 
