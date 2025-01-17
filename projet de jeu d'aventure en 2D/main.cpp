@@ -7,7 +7,7 @@ using namespace std;
 class Entity {
 public:
 
-    virtual void maj(float deltaTime) = 0;
+    virtual void maj(float deltaTime, const Vector2u& windowSize) = 0;
     virtual void draw(RenderWindow & window) = 0;
 
 };
@@ -46,9 +46,18 @@ public:
         }
     }
 
-    void maj(float deltaTime) override {
+    void maj(float deltaTime, const Vector2u& windowSize) override {
+
         position += velocity * deltaTime;
+
+        float radius = player.getRadius();
+        if (position.x < 0) position.x = 0;
+        if (position.y < 0) position.y = 0;
+        if (position.x + radius * 2 > windowSize.x) position.x = windowSize.x - radius * 2;
+        if (position.y + radius * 2 > windowSize.y) position.y = windowSize.y - radius * 2;
+
         player.setPosition(position);
+
     }
 
     void draw(RenderWindow& window) override {
@@ -76,16 +85,13 @@ int main() {
                 if (event.key.code == Keyboard::A)
                     cout << "La touche A a été pressée!" << endl;
                 if (event.key.code == Keyboard::Escape)
-                    window.close(); // Fermer avec Échap
+                    window.close(); 
             }
         }
 
         player.touche();
         float deltaTime = clock.restart().asSeconds();
-
-        player.maj(deltaTime);
-
-
+        player.maj(deltaTime, window.getSize());
         window.clear();
         player.draw(window);
         window.display();
