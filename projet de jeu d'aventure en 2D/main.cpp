@@ -35,7 +35,7 @@ Vector2f generatePosition(const Vector2u& windowSize, const Vector2f& referenceP
 }
 
 int main() {
-    RenderWindow window(VideoMode(1920, 1080), "Jeu d'aventure");
+    RenderWindow window(VideoMode(1500, 750), "Jeu d'aventure");
     window.setFramerateLimit(60);
 
     Player player;
