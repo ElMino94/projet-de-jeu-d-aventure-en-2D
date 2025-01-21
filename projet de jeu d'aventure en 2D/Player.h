@@ -14,6 +14,7 @@ protected:
     float speed;
     float originalSpeed;
     float boostDuration;
+    int clecollecter;
 
 public:
 
@@ -25,7 +26,14 @@ public:
     void maj(float deltaTime, const Vector2u& windowSize) override;
     void draw(RenderWindow& window) override;
     FloatRect getBounds() const;
+
     void increaseSpeed(float boostAmount, float duration = 5.f);
+    void resetSpeed();
+
+    void collectCle();
+    int getCleCollecter() const;
+    
+    bool BoostOn() const;
 
 };
 

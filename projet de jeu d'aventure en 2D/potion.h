@@ -2,6 +2,7 @@
 #define POTION_H
 
 #include "Interaction.h"
+#include "Player.h"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
