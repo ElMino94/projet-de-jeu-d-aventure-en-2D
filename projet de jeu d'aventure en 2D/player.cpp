@@ -44,3 +44,9 @@ void Player::draw(RenderWindow& window) {
 FloatRect Player::getBounds() const {
     return player.getGlobalBounds();
 }
+
+void Player::increaseSpeed(float boostAmount, float duration) {
+
+    speed += boostAmount;
+    boostDuration = duration;
+}
