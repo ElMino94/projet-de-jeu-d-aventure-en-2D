@@ -1,29 +1,18 @@
-#include "ennemi.h"
+#include "Ennemi.h"
 
-class Ennemi : public Entity {
+using namespace sf;
 
-protected:
+Ennemi::Ennemi(float radius, Color color, Vector2f startPosition) {
+    ennemi.setRadius(radius);
+    ennemi.setFillColor(color);
+    ennemi.setOrigin(radius, radius);
+    ennemi.setPosition(startPosition);
+}
 
-    CircleShape ennemi;
+FloatRect Ennemi::getBounds() const {
+    return ennemi.getGlobalBounds();
+}
 
-public:
-
-    Ennemi(float radius, Color color, Vector2f startPosition) {
-        ennemi.setRadius(radius);
-        ennemi.setFillColor(color);
-        ennemi.setOrigin(radius, radius);
-        ennemi.setPosition(startPosition);
-    }
-
-    FloatRect getBounds() const {
-
-        return ennemi.getGlobalBounds();
-
-    }
-
-    void draw(RenderWindow& window) override {
-
-        window.draw(ennemi);
-
-    }
-};
+void Ennemi::draw(RenderWindow& window) {
+    window.draw(ennemi);
+}

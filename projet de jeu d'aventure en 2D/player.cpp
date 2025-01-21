@@ -1,65 +1,46 @@
 #include "Player.h"
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
+
 using namespace sf;
 
-class Player : public Entity {
-protected:
+Player::Player() : position(100.f, 100.f), velocity(0.f, 0.f), speed(200) {
+    player.setRadius(50.f);
+    player.setFillColor(Color::White);
+    player.setPosition(position);
+}
 
-    CircleShape player;
-    Vector2f velocity;
-    float speed;
+void Player::touche() {
+    velocity = Vector2f(0.f, 0.f);
 
-public:
-
-    Vector2f position;
-
-    Player() : position(100.f, 100.f), velocity(0.f, 0.f), speed(200) {
-        player.setRadius(50.f);
-        player.setFillColor(Color::White);
-        player.setPosition(position);
+    if (Keyboard::isKeyPressed(Keyboard::Z)) {
+        velocity.y -= speed;
     }
-
-    void touche() {
-
-        velocity = Vector2f(0.f, 0.f);
-
-        if (Keyboard::isKeyPressed(Keyboard::Z)) {
-            velocity.y -= speed;
-        }
-        if (Keyboard::isKeyPressed(Keyboard::S)) {
-            velocity.y += speed;
-        }
-        if (Keyboard::isKeyPressed(Keyboard::Q)) {
-            velocity.x -= speed;
-        }
-        if (Keyboard::isKeyPressed(Keyboard::D)) {
-            velocity.x += speed;
-        }
+    if (Keyboard::isKeyPressed(Keyboard::S)) {
+        velocity.y += speed;
     }
-
-    void maj(float deltaTime, const Vector2u& windowSize) override {
-
-        position += velocity * deltaTime;
-
-        float radius = player.getRadius();
-        if (position.x < 0) position.x = 0;
-        if (position.y < 0) position.y = 0;
-        if (position.x + radius * 2 > windowSize.x) position.x = windowSize.x - radius * 2;
-        if (position.y + radius * 2 > windowSize.y) position.y = windowSize.y - radius * 2;
-
-        player.setPosition(position);
-
+    if (Keyboard::isKeyPressed(Keyboard::Q)) {
+        velocity.x -= speed;
     }
-
-    void draw(RenderWindow& window) override {
-        window.draw(player);
+    if (Keyboard::isKeyPressed(Keyboard::D)) {
+        velocity.x += speed;
     }
+}
 
-    FloatRect getBounds() const {
-        return player.getGlobalBounds();
-    }
+void Player::maj(float deltaTime, const Vector2u& windowSize) {
+    position += velocity * deltaTime;
 
-};
+    float radius = player.getRadius();
+    if (position.x < 0) position.x = 0;
+    if (position.y < 0) position.y = 0;
+    if (position.x + radius * 2 > windowSize.x) position.x = windowSize.x - radius * 2;
+    if (position.y + radius * 2 > windowSize.y) position.y = windowSize.y - radius * 2;
 
+    player.setPosition(position);
+}
 
+void Player::draw(RenderWindow& window) {
+    window.draw(player);
+}
+
+FloatRect Player::getBounds() const {
+    return player.getGlobalBounds();
+}

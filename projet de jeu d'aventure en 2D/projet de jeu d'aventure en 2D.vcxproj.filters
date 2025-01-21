@@ -21,9 +21,6 @@
     <ClCompile Include="player.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="entity.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="ennemi.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>

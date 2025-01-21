@@ -133,7 +133,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ennemi.cpp" />
-    <ClCompile Include="entity.cpp" />
     <ClCompile Include="hxh.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="patpatrouille.cpp" />
