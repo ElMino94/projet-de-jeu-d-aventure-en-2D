@@ -40,15 +40,15 @@ int main() {
     window.setFramerateLimit(60);
 
     Player player;
-
-    Map gameMap("map.txt", "wall_texture.png", 50);
     Clock clock;
 
     srand(static_cast<unsigned>(time(nullptr)));
     
     const float minSpDis = 150.f;
-    Vector2f playerPosition = player.position;
 
+    Map map("");
+
+    Vector2f playerPosition = player.position;
     vector<unique_ptr<Ennemi>> ennemis;
     ennemis.push_back(make_unique<HxH>(generatePosition(window.getSize(), playerPosition, minSpDis)));
     ennemis.push_back(make_unique<patpatrouille>(generatePosition(window.getSize(), playerPosition, minSpDis), vector<Vector2f>{{700.f, 500.f}, { 700.f, 100.f }, { 100.f, 100.f }, { 100.f, 500.f }}));
@@ -71,11 +71,11 @@ int main() {
         player.maj(deltaTime, window.getSize());
         playerPosition = player.position;
 
-        if (gameMap.checkCollision(player.getBounds())) {
-
-            player.position = Vector2f(100.f, 100.f);
-
+        if (map.checkCollision(player.getBounds())) {
+            player.resetPosition(Vector2f(100.f, 100.f)); 
         }
+
+        map.checkDoorCollision(player.getBounds(), player);
 
         for (auto& ennemi : ennemis) {
             if (HxH* chaser = dynamic_cast<HxH*>(ennemi.get())) {
@@ -105,7 +105,7 @@ int main() {
         }
 
         window.clear();
-        gameMap.draw(window);
+        map.draw(window);
         player.draw(window);
         for (auto& ennemi : ennemis) {
             ennemi->draw(window);

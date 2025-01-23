@@ -1,36 +1,30 @@
-#pragma once
 #ifndef MAP_H
 #define MAP_H
 
-#include <SFML/Graphics.hpp>
 #include <vector>
-#include <string>
-#include <fstream>
-#include <iostream>
+#include <SFML/Graphics.hpp>
+#include "Player.h"
 
-using namespace sf;
 using namespace std;
+using namespace sf;
 
 class Map {
-
-
 private:
-
-	vector<vector<int>> grid;
-	Texture wallTexture;
-	Sprite wallSprite;
-	int tileSize;
+    vector<string> layout; 
+    Texture wallTexture;
+    Texture floorTexture;
+    Texture doorTexture;
+    vector<RectangleShape> walls; 
+    RectangleShape door;             
+    bool doorOpen;
 
 public:
-
-	Map(const string& filename, const string& textureFile, int tileSize);
-	void draw(RenderWindow& window);
-	bool checkCollision(const FloatRect& playerBounds) const;
-
+    Map(const string& filename);
+    void loadTextures();
+    void draw(RenderWindow& window);
+    bool checkCollision(const FloatRect& bounds) const;
+    bool checkDoorCollision(const FloatRect& bounds, Player& player);
+    bool isDoorOpen() const;
 };
-
-
-
-
 
 #endif

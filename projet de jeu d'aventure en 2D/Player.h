@@ -39,6 +39,9 @@ public:
         position = newPosition;
         player.setPosition(position);
     }
+
+    void resetPosition(const Vector2f& newPosition);
+
 };
 
 #endif

@@ -88,3 +88,8 @@ bool Player::BoostOn() const {
     return boostDuration > 0;
 
 }
+
+void Player::resetPosition(const Vector2f& newPosition) {
+    position = newPosition;
+    player.setPosition(position);
+}
