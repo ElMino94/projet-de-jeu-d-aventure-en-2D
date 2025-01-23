@@ -141,6 +141,7 @@
     <ClCompile Include="ennemi.cpp" />
     <ClCompile Include="hxh.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="patpatrouille.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="potion.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="hxh.h" />
     <ClInclude Include="interaction.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="patpatrouille.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="potion.h" />

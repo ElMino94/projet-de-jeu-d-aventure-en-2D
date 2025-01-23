@@ -35,6 +35,10 @@ public:
     
     bool BoostOn() const;
 
+    void setPosition(const Vector2f& newPosition) {
+        position = newPosition;
+        player.setPosition(position);
+    }
 };
 
 #endif

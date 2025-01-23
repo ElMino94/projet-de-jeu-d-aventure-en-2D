@@ -3,6 +3,7 @@
 #include "PatPatrouille.h"
 #include "potion.h"
 #include "cle.h"
+#include "map.h"
 #include <vector>
 #include <memory>
 #include <iostream>
@@ -39,6 +40,8 @@ int main() {
     window.setFramerateLimit(60);
 
     Player player;
+
+    Map gameMap("map.txt", "wall_texture.png", 50);
     Clock clock;
 
     srand(static_cast<unsigned>(time(nullptr)));
@@ -68,6 +71,12 @@ int main() {
         player.maj(deltaTime, window.getSize());
         playerPosition = player.position;
 
+        if (gameMap.checkCollision(player.getBounds())) {
+
+            player.position = Vector2f(100.f, 100.f);
+
+        }
+
         for (auto& ennemi : ennemis) {
             if (HxH* chaser = dynamic_cast<HxH*>(ennemi.get())) {
                 chaser->maj(deltaTime, player.position, window.getSize());
@@ -96,6 +105,7 @@ int main() {
         }
 
         window.clear();
+        gameMap.draw(window);
         player.draw(window);
         for (auto& ennemi : ennemis) {
             ennemi->draw(window);
