@@ -46,7 +46,7 @@ int main() {
     
     const float minSpDis = 150.f;
 
-    Map map("");
+    Map map("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\map.txt");
 
     Vector2f playerPosition = player.position;
     vector<unique_ptr<Ennemi>> ennemis;
