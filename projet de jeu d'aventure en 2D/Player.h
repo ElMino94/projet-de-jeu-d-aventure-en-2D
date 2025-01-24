@@ -41,7 +41,7 @@ public:
         player.setPosition(position);
     }
 
-    void wallCol(const vector<Sprite>& walls);
+    void wallCol(const vector<Sprite>& walls, const Vector2f& previousPostione);
 
 };
 

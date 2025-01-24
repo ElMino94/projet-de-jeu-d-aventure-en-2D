@@ -28,6 +28,7 @@ Map::Map(const string& filename) : doorOpen(false) {
 }
 
 void Map::loadTextures() {
+
     if (!wallTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\wall.png")) {
         cerr << "Erreur : Impossible de charger la texture murale" << endl;
     }
@@ -43,6 +44,10 @@ void Map::loadTextures() {
     if (!treasureTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\treasure.png")) {
         cerr << "Erreur : Impossible de charger la texture du trésor" << endl;
     }
+    if (!playerTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\player.png")) {
+        cerr << "Erreur : Impossible de charger la texture du trésor" << endl;
+    }
+
 }
 
 void Map::initializeSprites() {
@@ -59,6 +64,10 @@ void Map::initializeSprites() {
             }
             else if (symbol == '.') { 
                 sprite.setTexture(floorTexture);
+                sprite.setPosition(x * tileSize, y * tileSize);
+            }
+            else if (symbol == 'P') {
+                sprite.setTexture(playerTexture);
                 sprite.setPosition(x * tileSize, y * tileSize);
             }
             else if (symbol == 'D') { 
@@ -145,6 +154,20 @@ bool Map::checkDoorCollision(const FloatRect& bounds, Player& player) {
     }
     return false;
 }
+
+Vector2f Map::getPlayerStartPosition() const {
+    const float tileSize = 50.f; // La taille d'une tuile (ajuste selon ta configuration)
+    for (size_t y = 0; y < layout.size(); ++y) {
+        for (size_t x = 0; x < layout[y].size(); ++x) {
+            if (layout[y][x] == 'P') { // Si on trouve le symbole 'P'
+                return Vector2f(x * tileSize, y * tileSize); // Position en pixels
+            }
+        }
+    }
+    // Si aucun 'P' trouvé, retourne une position par défaut (exemple : coin supérieur gauche)
+    return Vector2f(0.f, 0.f);
+}
+
 
 bool Map::isDoorOpen() const {
     return doorOpen;

@@ -48,6 +48,9 @@ void Player::touche() {
 
 void Player::maj(float deltaTime, const Vector2u& windowSize) {
     touche();
+
+    Vector2f previousPostion = position;
+
     position += velocity * deltaTime;
 
     if (position.x < 0) position.x = 0;
@@ -67,14 +70,12 @@ void Player::maj(float deltaTime, const Vector2u& windowSize) {
     }
 }
 
-void Player::wallCol(const vector<Sprite>& walls) {
+void Player::wallCol(const vector<Sprite>& walls, const Vector2f& previousPosition) {
 
     for (const auto& wall : walls) {
         if (player.getGlobalBounds().intersects(wall.getGlobalBounds())) {
 
-            FloatRect wallBounds = wall.getGlobalBounds();
-            FloatRect playerBounds = player.getGlobalBounds();
-
+            position = previousPosition;
             player.setPosition(position);
         }
     }

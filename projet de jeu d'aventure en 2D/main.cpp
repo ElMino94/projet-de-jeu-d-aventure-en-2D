@@ -49,6 +49,8 @@ int main() {
 
     Map map("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\map.txt");
 
+    Vector2f playerStartPosition = map.getPlayerStartPosition();
+    player.setPosition(playerStartPosition);
     Vector2f playerPosition = player.position;
     vector<unique_ptr<Ennemi>> ennemis;
     ennemis.push_back(make_unique<HxH>(generatePosition(window.getSize(), playerPosition, minSpDis)));
@@ -68,13 +70,12 @@ int main() {
 
         float deltaTime = clock.restart().asSeconds();
 
-        player.touche();
+        Vector2f previousPosition = player.position;
         player.maj(deltaTime, window.getSize());
-        playerPosition = player.position;
+        player.wallCol(map.getWalls(), previousPosition);
 
         if (map.checkCollision(player.getBounds())) {}
 
-        player.wallCol(map.getWalls());
         map.checkDoorCollision(player.getBounds(), player);
 
         for (auto& ennemi : ennemis) {

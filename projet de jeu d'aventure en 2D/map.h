@@ -11,7 +11,7 @@ using namespace sf;
 class Map {
 private:
     vector<string> layout; 
-    Texture wallTexture, floorTexture, doorTexture, keyTexture,  treasureTexture;
+    Texture wallTexture, floorTexture, doorTexture, keyTexture,  treasureTexture, playerTexture;
     vector<Sprite> walls; 
     Sprite door;
     vector<Sprite> keys;
@@ -25,6 +25,7 @@ public:
     void initializeSprites();
     void draw(RenderWindow& window);
     bool checkCollision(const FloatRect& bounds) const;
+    Vector2f getPlayerStartPosition() const;
     const vector<Sprite>& getWalls() const;
     bool checkDoorCollision(const FloatRect& bounds, Player& player);
     bool isDoorOpen() const;
