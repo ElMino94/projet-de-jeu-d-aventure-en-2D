@@ -11,7 +11,7 @@ class Interaction {
 public:
 	
 	virtual void interact(Player& player) = 0;
-	virtual void draw(RenderWindow& window) = 0;
+	virtual void draw(RenderWindow& window)  = 0;
 	virtual const FloatRect getBounds() const = 0;
 
 };

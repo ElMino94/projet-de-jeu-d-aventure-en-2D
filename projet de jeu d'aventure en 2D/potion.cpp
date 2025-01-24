@@ -18,10 +18,9 @@ void Potion::interact(Player& player) {
 }
 
 void Potion::draw(RenderWindow& window) {
-
 	window.draw(potion);
-
 }
+
 
 const FloatRect Potion::getBounds() const {
 

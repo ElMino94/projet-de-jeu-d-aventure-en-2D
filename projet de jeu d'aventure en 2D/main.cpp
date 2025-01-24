@@ -26,14 +26,6 @@ bool checkCollision(const FloatRect& a, const FloatRect& b) {
 
 }
 
-Vector2f generatePosition(const Vector2u& windowSize, const Vector2f& referencePosition, float minDistance) {
-    Vector2f position;
-    do {
-        position.x = static_cast<float>(rand() % windowSize.x);
-        position.y = static_cast<float>(rand() % windowSize.y);
-    } while (calDist(position, referencePosition) < minDistance);
-    return position;
-}
 
 int main() {
     RenderWindow window(VideoMode(1500, 750), "Jeu d'aventure");
@@ -52,13 +44,14 @@ int main() {
     Vector2f playerStartPosition = map.getPlayerStartPosition();
     player.setPosition(playerStartPosition);
     Vector2f playerPosition = player.position;
+
     vector<unique_ptr<Ennemi>> ennemis;
-    ennemis.push_back(make_unique<HxH>(generatePosition(window.getSize(), playerPosition, minSpDis)));
-    ennemis.push_back(make_unique<patpatrouille>(generatePosition(window.getSize(), playerPosition, minSpDis), vector<Vector2f>{{700.f, 500.f}, { 700.f, 100.f }, { 100.f, 100.f }, { 100.f, 500.f }}));
+    ennemis.push_back(make_unique<HxH>(300.f, 200.f));
+    ennemis.push_back(make_unique<patpatrouille>(Vector2f(700.f, 500.f), vector<Vector2f>{{700.f, 500.f}, { 700.f, 100.f }, { 100.f, 100.f }, { 100.f, 500.f }}));
          
     vector<unique_ptr<Interaction>> objets;
-    objets.push_back(make_unique<Potion>(generatePosition(window.getSize(), playerPosition, minSpDis)));
-    objets.push_back(make_unique<Cle>(generatePosition(window.getSize(), playerPosition, minSpDis)));
+    objets.push_back(make_unique<Potion>(Vector2f(400.f, 300.f))); 
+    objets.push_back(make_unique<Cle>(Vector2f(800.f, 600.f)));
 
 
     while (window.isOpen()) {

@@ -8,20 +8,17 @@
 using namespace sf;
 
 class Potion : public Interaction {
-
 private:
-
-	CircleShape potion;
-	float speedBoost;
+    CircleShape potion;
+    float speedBoost;
 
 public:
+    Potion(Vector2f position, float boost = 50.f);
 
-	Potion(Vector2f position, float boost = 50.f);
-
-	void interact(Player& player) override;
-	void draw(RenderWindow& window) override;
-	const  FloatRect getBounds() const override;
-
+    void interact(Player& player) override;
+    void draw(RenderWindow& window) override; 
+    const FloatRect getBounds() const override;
 };
+
 
 #endif

@@ -1,25 +1,32 @@
+// Map.h
 #ifndef MAP_H
 #define MAP_H
 
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "Ennemi.h"
+#include "Potion.h"
+#include "Cle.h"
+#include "HxH.h"
+#include "PatPatrouille.h"
 
 using namespace std;
 using namespace sf;
 
 class Map {
 private:
-    vector<string> layout; 
-    Texture wallTexture, floorTexture, doorTexture, keyTexture,  treasureTexture, playerTexture;
-    vector<Sprite> walls; 
-    Sprite door;
+    vector<string> layout;
+    Texture wallTexture, floorTexture, doorTexture, keyTexture, playerTexture, ennemiTexture, potionTexture;
+    vector<Sprite> walls;
     vector<Sprite> keys;
-    vector<Sprite> treasures;
+    vector<Ennemi*> ennemis; // Liste de pointeurs vers des ennemis (HxH ou patpatrouille)
+    vector<Potion> potions;
+    vector<Cle> cles;
+    Sprite door;
     bool doorOpen;
 
 public:
-
     Map(const string& filename);
     void loadTextures();
     void initializeSprites();
@@ -29,6 +36,9 @@ public:
     const vector<Sprite>& getWalls() const;
     bool checkDoorCollision(const FloatRect& bounds, Player& player);
     bool isDoorOpen() const;
+    void checkItemCollection(Player& player);
+    void checkEnemyCollisions(Player& player);
+    void updateEnemies(float deltaTime, const Vector2f& playerPosition, const Vector2u& windowSize);
 };
 
 #endif

@@ -19,7 +19,7 @@ Player::Player()
     
     player.setTexture(texture);
     player.setPosition(position);
-    player.setScale(0.7f, 0.7f);
+    player.setScale(0.6f, 0.6f);
 }
 
 void Player::loadTexture(const string& filename) {

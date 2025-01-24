@@ -20,7 +20,7 @@ Map::Map(const string& filename) : doorOpen(false) {
 
     file.close();
 
-
+    
     loadTextures();
     initializeSprites();
 
@@ -41,9 +41,6 @@ void Map::loadTextures() {
     if (!keyTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\key.png")) {
         cerr << "Erreur : Impossible de charger la texture de la clé" << endl;
     }
-    if (!treasureTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\treasure.png")) {
-        cerr << "Erreur : Impossible de charger la texture du trésor" << endl;
-    }
     if (!playerTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\player.png")) {
         cerr << "Erreur : Impossible de charger la texture du trésor" << endl;
     }
@@ -57,12 +54,12 @@ void Map::initializeSprites() {
             char symbol = layout[y][x];
             Sprite sprite;
 
-            if (symbol == '#') { 
+            if (symbol == '#') {
                 sprite.setTexture(wallTexture);
                 sprite.setPosition(x * tileSize, y * tileSize);
                 walls.push_back(sprite);
             }
-            else if (symbol == '.') { 
+            else if (symbol == '.') {
                 sprite.setTexture(floorTexture);
                 sprite.setPosition(x * tileSize, y * tileSize);
             }
@@ -70,29 +67,44 @@ void Map::initializeSprites() {
                 sprite.setTexture(playerTexture);
                 sprite.setPosition(x * tileSize, y * tileSize);
             }
-            else if (symbol == 'D') { 
+            else if (symbol == 'D') {
                 door.setTexture(doorTexture);
                 door.setPosition(x * tileSize, y * tileSize);
             }
-            else if (symbol == 'K') { 
+            else if (symbol == 'K') {
                 sprite.setTexture(keyTexture);
                 sprite.setPosition(x * tileSize, y * tileSize);
                 keys.push_back(sprite);
             }
-
-            /*else if (symbol == 'E') { 
-                sprite.setTexture(enemyTexture);
-                sprite.setPosition(x * tileSize, y * tileSize);
-                enemies.push_back(sprite);
-            }*/
-            else if (symbol == 'T') { 
-                sprite.setTexture(treasureTexture);
-                sprite.setPosition(x * tileSize, y * tileSize);
-                treasures.push_back(sprite);
+            else if (symbol == 'E') { // Ennemi type HxH
+                ennemis.push_back(new HxH(Vector2f(x * tileSize, y * tileSize)));
+            }
+            else if (symbol == 'I') { // Potion
+                potions.push_back(Potion(Vector2f(x * tileSize, y * tileSize)));
+            }
+            else if (symbol == 'Y') { // Ennemi type patpatrouille
+                vector<Vector2f> waypoints = {
+                    Vector2f(x * tileSize, y * tileSize),
+                    Vector2f((x + 2) * tileSize, (y + 1) * tileSize),
+                    Vector2f((x + 3) * tileSize, y * tileSize)
+                };
+                ennemis.push_back(new patpatrouille(Vector2f(x * tileSize, y * tileSize), waypoints));
             }
         }
     }
 }
+
+void Map::updateEnemies(float deltaTime, const Vector2f& playerPosition, const Vector2u& windowSize) {
+    for (auto& ennemi : ennemis) {
+        if (auto hxH = dynamic_cast<HxH*>(ennemi)) {
+            hxH->maj(deltaTime, playerPosition, windowSize);
+        }
+        else if (auto patrouille = dynamic_cast<patpatrouille*>(ennemi)) {
+            patrouille->maj(deltaTime, windowSize);
+        }
+    }
+}
+
 
 
 void Map::draw(RenderWindow& window) {
@@ -115,14 +127,15 @@ void Map::draw(RenderWindow& window) {
 
     for (const auto& key : keys) {
         window.draw(key);
+    }    
+
+    for (const auto& ennemi : ennemis) {
+        ennemi->draw(window);
     }
 
-    /*for (const auto& enemy : enemies) {
-        window.draw(enemy);
-    }*/
-
-    for (const auto& treasure : treasures) {
-        window.draw(treasure);
+    // Dessiner les potions
+    for (const auto& potion : potions) {
+        potion.draw(window);
     }
 
     if (!doorOpen) {
