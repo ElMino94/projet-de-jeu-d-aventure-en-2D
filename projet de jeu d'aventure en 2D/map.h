@@ -20,7 +20,7 @@ private:
     Texture wallTexture, floorTexture, doorTexture, keyTexture, playerTexture, ennemiTexture, potionTexture;
     vector<Sprite> walls;
     vector<Sprite> keys;
-    vector<Ennemi*> ennemis; // Liste de pointeurs vers des ennemis (HxH ou patpatrouille)
+    vector<Ennemi*> ennemis; 
     vector<Potion> potions;
     vector<Cle> cles;
     Sprite door;

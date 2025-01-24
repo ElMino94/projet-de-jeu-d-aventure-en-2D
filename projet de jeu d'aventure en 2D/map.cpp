@@ -135,7 +135,7 @@ void Map::draw(RenderWindow& window) {
 
     // Dessiner les potions
     for (const auto& potion : potions) {
-        potion.draw(window);
+        window.draw(potion);
     }
 
     if (!doorOpen) {
