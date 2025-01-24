@@ -6,7 +6,7 @@ using namespace std;
 using namespace sf;
 
 Map::Map(const string& filename) : doorOpen(false) {
-    
+
     ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Erreur : Impossible de charger la carte depuis " << filename << endl;
@@ -20,40 +20,71 @@ Map::Map(const string& filename) : doorOpen(false) {
 
     file.close();
 
-    
-    loadTextures();
 
-    
+    loadTextures();
+    initializeSprites();
+
+   
+}
+
+void Map::loadTextures() {
+    if (!wallTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\wall.png")) {
+        cerr << "Erreur : Impossible de charger la texture murale" << endl;
+    }
+    if (!floorTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\floor.png")) {
+        cerr << "Erreur : Impossible de charger la texture du sol" << endl;
+    }
+    if (!doorTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\door1.png")) {
+        cerr << "Erreur : Impossible de charger la texture de la porte" << endl;
+    }
+    if (!keyTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\key.png")) {
+        cerr << "Erreur : Impossible de charger la texture de la clé" << endl;
+    }
+    if (!treasureTexture.loadFromFile("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\treasure.png")) {
+        cerr << "Erreur : Impossible de charger la texture du trésor" << endl;
+    }
+}
+
+void Map::initializeSprites() {
     const float tileSize = 50.f;
     for (size_t y = 0; y < layout.size(); ++y) {
         for (size_t x = 0; x < layout[y].size(); ++x) {
             char symbol = layout[y][x];
-            if (symbol == '#') {
-                RectangleShape wall(Vector2f(tileSize, tileSize));
-                wall.setPosition(x * tileSize, y * tileSize);
-                wall.setTexture(&wallTexture);
-                walls.push_back(wall);
+            Sprite sprite;
+
+            if (symbol == '#') { 
+                sprite.setTexture(wallTexture);
+                sprite.setPosition(x * tileSize, y * tileSize);
+                walls.push_back(sprite);
+            }
+            else if (symbol == '.') { 
+                sprite.setTexture(floorTexture);
+                sprite.setPosition(x * tileSize, y * tileSize);
             }
             else if (symbol == 'D') { 
-                door.setSize(Vector2f(tileSize, tileSize));
+                door.setTexture(doorTexture);
                 door.setPosition(x * tileSize, y * tileSize);
-                door.setTexture(&doorTexture);
+            }
+            else if (symbol == 'K') { 
+                sprite.setTexture(keyTexture);
+                sprite.setPosition(x * tileSize, y * tileSize);
+                keys.push_back(sprite);
+            }
+
+            /*else if (symbol == 'E') { 
+                sprite.setTexture(enemyTexture);
+                sprite.setPosition(x * tileSize, y * tileSize);
+                enemies.push_back(sprite);
+            }*/
+            else if (symbol == 'T') { 
+                sprite.setTexture(treasureTexture);
+                sprite.setPosition(x * tileSize, y * tileSize);
+                treasures.push_back(sprite);
             }
         }
     }
 }
 
-void Map::loadTextures() {
-    if (!wallTexture.loadFromFile("wall.png")) {
-        cerr << "Erreur : Impossible de charger la texture murale" << endl;
-    }
-    if (!floorTexture.loadFromFile("floor.png")) {
-        cerr << "Erreur : Impossible de charger la texture du sol" << endl;
-    }
-    if (!doorTexture.loadFromFile("door.png")) {
-        cerr << "Erreur : Impossible de charger la texture de la porte" << endl;
-    }
-}
 
 void Map::draw(RenderWindow& window) {
     const float tileSize = 50.f;
@@ -73,10 +104,22 @@ void Map::draw(RenderWindow& window) {
         window.draw(wall);
     }
 
-    
+    for (const auto& key : keys) {
+        window.draw(key);
+    }
+
+    /*for (const auto& enemy : enemies) {
+        window.draw(enemy);
+    }*/
+
+    for (const auto& treasure : treasures) {
+        window.draw(treasure);
+    }
+
     if (!doorOpen) {
         window.draw(door);
     }
+
 }
 
 bool Map::checkCollision(const FloatRect& bounds) const {
@@ -86,6 +129,10 @@ bool Map::checkCollision(const FloatRect& bounds) const {
         }
     }
     return false;
+}
+
+const vector<Sprite>& Map::getWalls() const {
+    return walls;
 }
 
 bool Map::checkDoorCollision(const FloatRect& bounds, Player& player) {

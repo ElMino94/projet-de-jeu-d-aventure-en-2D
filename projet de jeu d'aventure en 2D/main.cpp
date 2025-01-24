@@ -40,6 +40,7 @@ int main() {
     window.setFramerateLimit(60);
 
     Player player;
+    player.loadTexture("C:\\Users\\trestoux\\Documents\\GitHub\\projet-de-jeu-d-aventure-en-2D\\asset\\player.png");
     Clock clock;
 
     srand(static_cast<unsigned>(time(nullptr)));
@@ -71,10 +72,9 @@ int main() {
         player.maj(deltaTime, window.getSize());
         playerPosition = player.position;
 
-        if (map.checkCollision(player.getBounds())) {
-            player.resetPosition(Vector2f(100.f, 100.f)); 
-        }
+        if (map.checkCollision(player.getBounds())) {}
 
+        player.wallCol(map.getWalls());
         map.checkDoorCollision(player.getBounds(), player);
 
         for (auto& ennemi : ennemis) {

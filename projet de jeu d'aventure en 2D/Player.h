@@ -5,11 +5,12 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
+using namespace std;
 
 class Player : public Entity {
 protected:
-
-    CircleShape player;
+    Sprite player;        
+    Texture texture;      
     Vector2f velocity;
     float speed;
     float originalSpeed;
@@ -17,11 +18,11 @@ protected:
     int clecollecter;
 
 public:
-
     Vector2f position;
 
     Player();
 
+    void loadTexture(const string& filename); 
     void touche();
     void maj(float deltaTime, const Vector2u& windowSize) override;
     void draw(RenderWindow& window) override;
@@ -32,7 +33,7 @@ public:
 
     void collectCle();
     int getCleCollecter() const;
-    
+
     bool BoostOn() const;
 
     void setPosition(const Vector2f& newPosition) {
@@ -40,8 +41,9 @@ public:
         player.setPosition(position);
     }
 
-    void resetPosition(const Vector2f& newPosition);
+    void wallCol(const vector<Sprite>& walls);
 
 };
+
 
 #endif
